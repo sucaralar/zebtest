@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  psql:
+    image: postgres:14
+    env_file:
+      - .env
+    volumes:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5498:5432
+    expose:
+      - 5498
+  api:
+    build:
+      context: .
+    volumes:
+      - .:/zdemo
+    ports:
+      - 5050:5000
+    expose:
+      - 5050
+    env_file:
+      - .env
+    depends_on:
+      - psql
+volumes:
+  PGDATA:
