@@ -1,7 +1,7 @@
 from flask_restx import fields
 
 
-user_resource = {
+user_serializer = {
     "id": fields.Integer,
     "last_name": fields.String,
     "first_name": fields.String,
