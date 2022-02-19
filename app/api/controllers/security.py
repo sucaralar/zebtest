@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, abort
-from app.domain.entity import UserOut, LoginBase
+from app.domain.entity.security import LoginBase
 from flask_jwt_extended import create_access_token
 
 api = Namespace('securtity', path="/security/", description='Security Endpoint')

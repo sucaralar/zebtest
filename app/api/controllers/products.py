@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required, get_current_user
-from app.domain.entity import ProductBase
+from app.domain.entity.products import ProductBase
 
 api = Namespace('products', path="/products/", description='Products Endpoint')
 

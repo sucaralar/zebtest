@@ -1,7 +1,8 @@
 import abc
 from typing import Any, List
 import models
-from app.domain.entity import UserIn, ProductBase
+from app.domain.entity.users import UserIn
+from app.domain.entity.products import ProductBase
 
 
 class AbstractRepository(abc.ABC):

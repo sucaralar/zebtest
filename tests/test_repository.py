@@ -1,7 +1,8 @@
 # pylint: disable=protected-access
 from tests import utils
 import models
-from app.domain import entity, repository
+from app.domain.entity.users import UserIn
+from app.domain import repository
 
 
 # ==================================================================
@@ -12,7 +13,7 @@ def test_create_user(db) -> None:
     first_name = utils.random_lower_string()
     weak_password = "D3m0.Zebrans2022"
     email = f"{last_name}.{first_name}@test.com"
-    user_in = entity.UserIn(last_name=last_name, first_name=first_name, email=email, password=weak_password)
+    user_in = UserIn(last_name=last_name, first_name=first_name, email=email, password=weak_password)
     rep = repository.UserRepository()
     user = rep.create(obj_in=user_in)
     assert user.last_name == last_name
@@ -45,12 +46,12 @@ def test_update_user(db) -> None:
     first_name = utils.random_lower_string()
     weak_password = "D3m0.Zebrans2022"
     email = f"{last_name}.{first_name}@test.com"
-    user_in = entity.UserIn(id=obj_db_ref.id,
-                            last_name=last_name,
-                            first_name=first_name,
-                            email=email,
-                            password=weak_password)
-    
+    user_in = UserIn(id=obj_db_ref.id,
+                     last_name=last_name,
+                     first_name=first_name,
+                     email=email,
+                     password=weak_password)
+
     user = rep.update(_id=obj_db.id, obj_in=user_in)
     assert user.last_name == last_name
     assert user.first_name == first_name
