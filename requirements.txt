@@ -16,5 +16,5 @@ pytest
 pydantic
 sendgrid
 boto3
-
+botocore
 

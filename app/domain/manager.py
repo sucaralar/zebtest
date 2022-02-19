@@ -2,7 +2,8 @@ from typing import Any
 from app.domain.repository import UserRepository, ProductRepository
 from app.domain.entity.users import UserIn
 from app.domain.entity.products import ProductBase
-from app.utils.notify import Notify
+from app.utils.notify.send_email import EmailNotification
+from app.utils.notify.providers import SendGridNotification
 
 
 
@@ -72,10 +73,10 @@ class ProductManager(ProductRepository):
         product_db = self.product_repository.update(_id=product_in.id, obj_in=product_in)
         user_repository = UserRepository()
         emails = user_repository.get_admins_emails()
-        notify = Notify(emails=emails,
-                        subject="Notification from Zebtest by Su Carrillo",
-                        html_content=html_content)
-        notify.send()
+        notify = EmailNotification(provider=SendGridNotification)
+        email_send = notify.send(to_emails=emails,
+                                 subject="Notification from Zebtest by Su Carrillo",
+                                 html_content=html_content)
         return product_db
 
     def delete(self, product_id: int):
