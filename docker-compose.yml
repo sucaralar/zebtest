@@ -12,6 +12,8 @@ services:
     expose:
       - 5498
   api:
+    networks:
+      - localnet
     build:
       context: .
     volumes:
@@ -26,3 +28,6 @@ services:
       - psql
 volumes:
   PGDATA:
+networks:
+  localnet:
+    external: true
