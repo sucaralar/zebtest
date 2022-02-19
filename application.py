@@ -19,5 +19,7 @@ def create_app(environment):
     api.init_app(app)
     from app.extensions.routes_extension import register_routes
     register_routes(app)
+    from app.extensions.exceptions_exception import register_exception_handler
+    register_exception_handler(app)
     jwt_manager.init_app(app)
     return app

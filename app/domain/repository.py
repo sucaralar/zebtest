@@ -12,9 +12,9 @@ class AbstractRepository(abc.ABC):
         return self.model.create()
 
     def first(self, criteria: dict) -> Any:
-        return self.model.first(**criteria)
+        return self.model.first(criteria=criteria)
 
-    def filter_by(self, criteria: dict) -> Any:
+    def filter_by(self, criteria: Any) -> Any:
         return self.model.filter_by(**criteria)
 
     def get_by_id(self, _id: int) -> Any:

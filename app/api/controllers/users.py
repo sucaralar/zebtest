@@ -1,13 +1,14 @@
-from flask_restx import Namespace, Resource, marshal_with, marshal, abort
+from app.api.shared.global_exceptions import NotFoundError
+from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
 from app.domain.entity.users import UserIn
 from app.domain.manager import UserManager
-from app.domain.serializer.users import user_resource
+from app.api.serializer.users import user_serializer
 
 api = Namespace('users', path="/", description='User Endpoint')
 
 users_schema = api.schema_model(UserIn.__name__, UserIn.schema())
-user_model = api.model('UserModel', user_resource)
+user_model = api.model('UserModel', user_serializer)
 
 
 class UserResource(Resource):
