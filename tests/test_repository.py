@@ -28,13 +28,13 @@ def test_first_user(db) -> None:
 
 def test_get_first_user(db) -> None:
     rep = repository.UserRepository()
-    user = rep.first(criteria={"email": "sucaralar@gmail.com"})
+    user = rep.first(criteria={"email": "susy@gmail.com"})
     assert isinstance(user, models.User)
 
 
 def test_get_user(db) -> None:
     rep = repository.UserRepository()
-    user = rep.get_by_id(_id=1)
+    user = rep.get_by_id(_id=3)
     assert isinstance(user, models.User)
 
 

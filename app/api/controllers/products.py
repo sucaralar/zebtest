@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource
-from flask_jwt_extended import jwt_required, get_current_user
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.domain.manager import ProductManager
 from app.domain.entity.products import ProductBase
 from app.api.serializer.products import product_serializer
@@ -12,19 +12,15 @@ product_model = api.model('ProductModel', product_serializer)
 
 class ProductResource(Resource):
     @jwt_required(optional=True)
-    @api.marshal_with(product_model)
+    # @api.marshal_with(product_model)
     def get(self, product_id: int = None):
         """ Endpoint to get a product(s) """
         manager = ProductManager()
         if product_id:
             response = manager.get_by_id(product_id=product_id)
             # check if is an anonymous user
-            try:
-                user = get_current_user()
-                if not user:
-                    pass
-            except Exception as e:
-                print(e)
+            user = get_jwt_identity()
+            if not user:
                 pass
         else:
             response = manager.get_list()

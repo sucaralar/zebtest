@@ -49,6 +49,11 @@ class UserRepository(AbstractRepository):
         is_the_same = user.verify_password(password=password)
         return is_the_same
 
+    def get_admins_emails(self) -> List[str]:
+        users = self.list()
+        emails = [user.email for user in users]
+        return emails
+
 
 class ProductRepository(AbstractRepository):
     model = models.Product
