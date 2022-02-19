@@ -40,9 +40,14 @@ class UserRepository(AbstractRepository):
         new_obj = models.User(last_name=obj_in.last_name,
                               first_name=obj_in.first_name,
                               email=obj_in.email,
-                              password=obj_in.password)
+                              password=obj_in.password,
+                              is_active=True)
         new_obj.create()
         return new_obj
+
+    def verify_password(self, user: models.user, password: str):
+        is_the_same = user.verify_password(password=password)
+        return is_the_same
 
 
 class ProductRepository(AbstractRepository):
