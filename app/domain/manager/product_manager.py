@@ -1,3 +1,4 @@
+from flask_restx import abort
 from app.domain.repository.product_repository import ProductRepository
 from app.domain.repository.user_repository import UserRepository
 from app.domain.entity.products import ProductBase
@@ -25,9 +26,13 @@ class ProductManager(ProductRepository):
 
     def update(self, product_in: ProductBase):
         product = self.product_repository.get_by_id(_id=product_in.id)
+        if not product:
+            abort(404, **{"error": "Product not found"})
         html_content = f'<strong>The product #{product.id} has been modified</strong><ul><li> Sku: {product.sku} -> {product_in.sku}</li><li> Name: {product.name} -> {product_in.name}</li><li> Price: {product.price} -> {product_in.price}</li><li> Brand: {product.brand} -> {product_in.brand}</li><li> Description: {product.description} -> {product_in.description}</li><li> Qty: {product.qty} -> {product_in.qty}</li></ul> <br><span>Zeb test wishes you a good day.</span>'
-
-        product_db = self.product_repository.update(_id=product_in.id, obj_in=product_in)
+        try:
+            product_db = self.product_repository.update(_id=product_in.id, obj_in=product_in)
+        except Exception as e:
+            abort(400, **{"error": "Error trying to update product"})
         user_repository = UserRepository()
         emails = user_repository.get_admins_emails()
         notify = EmailNotification(provider=SendGridNotification)

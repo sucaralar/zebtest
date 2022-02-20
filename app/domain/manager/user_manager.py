@@ -1,3 +1,4 @@
+from flask_restx import abort
 from app.domain.repository.user_repository import UserRepository
 from app.domain.entity.users import UserIn
 
@@ -21,7 +22,10 @@ class UserManager:
         return user_db
 
     def update(self, user_in: UserIn):
-        user_db = self.user_repository.update(_id=user_in.id, obj_in=user_in)
+        try:
+            user_db = self.user_repository.update(_id=user_in.id, obj_in=user_in)
+        except Exception as e:
+            abort(400, **{"error": "Error trying to update user"})
         return user_db
 
     def delete(self, user_id: int):
@@ -31,6 +35,8 @@ class UserManager:
 
     def get_user_for_token(self, username: str, password: str):
         user_db = self.user_repository.first(criteria={"email": username})
+        if not user_db:
+            abort(403, **{"error": "Unregistered user"})
         right_password = self.user_repository.verify_password(user=user_db, password=password)
         if right_password:
             user_data = {
@@ -39,7 +45,8 @@ class UserManager:
                             "first_name": user_db.first_name,
                             "email": user_db.first_name,
                          }
-        # TODO return exception if password isn't right
+        else:
+            abort(401, **{"error": "Your logins are incorrect"})
         return user_data
 
 

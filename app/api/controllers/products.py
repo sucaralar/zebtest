@@ -1,4 +1,4 @@
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.domain.manager.product_manager import ProductManager
 from app.domain.entity.products import ProductBase
@@ -21,6 +21,8 @@ class ProductResource(Resource):
         manager = ProductManager()
         if product_id:
             response = manager.get_by_id(product_id=product_id)
+            if not response:
+                abort(404, **{"error": "There is no product with the specified ID"})
             # check if is an anonymous user
             user = get_jwt_identity()
             if not user:

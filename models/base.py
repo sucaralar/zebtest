@@ -38,8 +38,11 @@ class BaseModel(db.Model):
     def update(self, data: dict):
         for field, value in data.items():
             setattr(self, field, value)
-        db.session.add(self)
-        db.session.commit()
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except sqlalchemy.exc.IntegrityError as e:
+            abort(409, **{"error": "duplicates key"})
         db.session.refresh(self)
         return self
 

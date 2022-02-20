@@ -1,4 +1,4 @@
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, abort
 from flask_jwt_extended import jwt_required
 from app.domain.entity.users import UserIn
 from app.domain.manager.user_manager import UserManager
@@ -18,6 +18,8 @@ class UserResource(Resource):
         manager = UserManager()
         if user_id:
             response = manager.get_by_id(user_id=user_id)
+            if not response:
+                abort(404, **{"error": "There is no user with the specified ID"})
         else:
             response = manager.get_list()
         return response
