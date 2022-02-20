@@ -1,4 +1,4 @@
-from app.domain.repository import UserRepository
+from app.domain.repository.user_repository import UserRepository
 from app.domain.entity.users import UserIn
 
 

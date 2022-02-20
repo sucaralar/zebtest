@@ -1,4 +1,5 @@
-from app.domain.repository import UserRepository, ProductRepository
+from app.domain.repository.product_repository import ProductRepository
+from app.domain.repository.user_repository import UserRepository
 from app.domain.entity.products import ProductBase
 from app.utils.notify.send_email import EmailNotification
 from app.utils.notify.providers import SendGridNotification
