@@ -2,9 +2,6 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-# ==================================================================
-# User Entities
-# ==================================================================
 class UserBase(BaseModel):
     """common properties for model use"""
     last_name: str

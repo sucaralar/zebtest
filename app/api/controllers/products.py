@@ -20,13 +20,10 @@ class ProductResource(Resource):
         """ Endpoint to get a product(s) """
         manager = ProductManager()
         if product_id:
-            response = manager.get_by_id(product_id=product_id)
+            user = get_jwt_identity()
+            response = manager.get_by_id(product_id=product_id, user=user)
             if not response:
                 abort(404, **{"error": "There is no product with the specified ID"})
-            # check if is an anonymous user
-            user = get_jwt_identity()
-            if not user:
-                pass
         else:
             response = manager.get_list()
         return response
@@ -60,5 +57,5 @@ class ProductResource(Resource):
 
 
 # Register resource
-ns_products.add_resource(ProductResource, '/products/', methods=['GET', 'POST', 'PUT'])
+ns_products.add_resource(ProductResource, '/products', methods=['GET', 'POST', 'PUT'])
 ns_products.add_resource(ProductResource, '/products/<int:product_id>', methods=['GET', 'DELETE'])

@@ -1,13 +1,15 @@
 from flask_restx import abort
 from app.domain.repository.product_repository import ProductRepository
 from app.domain.repository.user_repository import UserRepository
+from app.domain.repository.searched_product_repository import SearchedProductRepository
 from app.domain.entity.products import ProductBase
+from app.domain.entity.searched_product import SearchedProductBase
 from app.utils.notify.send_email import EmailNotification
 from app.utils.notify.providers import SendGridNotification
+import models
 
 
-class ProductManager(ProductRepository):
-    product_repository = ProductRepository
+class ProductManager:
 
     def __init__(self):
         self.product_repository = ProductRepository()
@@ -16,8 +18,13 @@ class ProductManager(ProductRepository):
         products = self.product_repository.list()
         return products
 
-    def get_by_id(self, product_id: int):
+    def get_by_id(self, product_id: int, user: models.User):
+        searched_product_repository = SearchedProductRepository()
         product_db = self.product_repository.get_by_id(_id=product_id)
+        # check if is an anonymous user
+        if product_db and not user:
+            searched_product_in = SearchedProductBase(**{"product_id": product_id})
+            searched_product_repository.create(obj_in=searched_product_in)
         return product_db
 
     def create(self, product_in: ProductBase):
@@ -35,10 +42,11 @@ class ProductManager(ProductRepository):
             abort(400, **{"error": "Error trying to update product"})
         user_repository = UserRepository()
         emails = user_repository.get_admins_emails()
-        notify = EmailNotification(provider=SendGridNotification)
-        email_send = notify.send(to_emails=emails,
-                                 subject="Notification from Zebtest by Su Carrillo",
-                                 html_content=html_content)
+        if emails:
+            notify = EmailNotification(provider=SendGridNotification)
+            email_send = notify.send(to_emails=emails,
+                                     subject="Notification from Zebtest by Su Carrillo",
+                                     html_content=html_content)
         return product_db
 
     def delete(self, product_id: int):

@@ -2,7 +2,7 @@
 from tests import utils
 import models
 from app.domain.entity.users import UserIn
-from app.domain import repository_old
+from app.domain.repository.user_repository import UserRepository
 
 
 # ==================================================================
@@ -14,38 +14,38 @@ def test_create_user(db) -> None:
     weak_password = "D3m0.Zebrans2022"
     email = f"{last_name}.{first_name}@test.com"
     user_in = UserIn(last_name=last_name, first_name=first_name, email=email, password=weak_password)
-    rep = repository_old.UserRepository()
+    rep = UserRepository()
     user = rep.create(obj_in=user_in)
     assert user.last_name == last_name
     assert user.first_name == first_name
 
 
 def test_first_user(db) -> None:
-    rep = repository_old.UserRepository()
+    rep = UserRepository()
     user = rep.first({"is_active": True})
     assert isinstance(user, models.User)
 
 
 def test_get_first_user(db) -> None:
-    rep = repository_old.UserRepository()
-    user = rep.first(criteria={"email": "susy@gmail.com"})
+    rep = UserRepository()
+    user = rep.first(criteria={"email": "sucarrilloa@gmail.com"})
     assert isinstance(user, models.User)
 
 
 def test_get_user(db) -> None:
-    rep = repository_old.UserRepository()
-    user = rep.get_by_id(_id=3)
+    rep = UserRepository()
+    user = rep.get_by_id(_id=2)
     assert isinstance(user, models.User)
 
 
 def test_list_user(db) -> None:
-    rep = repository_old.UserRepository()
+    rep = UserRepository()
     user = rep.list()
     assert isinstance(user, list)
 
 
 def test_update_user(db) -> None:
-    rep = repository_old.UserRepository()
+    rep = UserRepository()
     obj_db_ref = rep.list()[-1]
     obj_db = rep.get_by_id(_id=obj_db_ref.id)
     last_name = utils.random_lower_string()
@@ -64,7 +64,7 @@ def test_update_user(db) -> None:
 
 
 def test_delete_user(db) -> None:
-    rep = repository_old.UserRepository()
+    rep = UserRepository()
     obj_db_ref = rep.list()[-1]
     rep.delete(_id=obj_db_ref.id)
     obj_db_deleted = rep.get_by_id(_id=obj_db_ref.id)

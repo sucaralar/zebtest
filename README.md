@@ -1,4 +1,4 @@
-#ZDemo
+#Zebrans Test
  
 A technician test that implements an API with Clean architecture to interact with a catalog of products
 

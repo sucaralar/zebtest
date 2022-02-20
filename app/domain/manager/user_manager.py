@@ -4,7 +4,6 @@ from app.domain.entity.users import UserIn
 
 
 class UserManager:
-    user_repository = None
 
     def __init__(self):
         self.user_repository = UserRepository()

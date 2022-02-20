@@ -1,9 +1,7 @@
-
 from typing import List
 import models
 from app.domain.entity.users import UserIn
 from app.domain.repository.base import AbstractRepository
-
 
 
 class UserRepository(AbstractRepository):

@@ -14,12 +14,13 @@ services:
     expose:
       - 5498
   api:
+    container_name: "zebtest_api"
     networks:
       - localnet
     build:
       context: .
     volumes:
-      - .:/zdemo
+      - .:/zebtest
     ports:
       - 5050:5000
     expose:

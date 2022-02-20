@@ -14,6 +14,12 @@ class BaseModel(db.Model):
         return cls.query.filter_by(**kwargs)
 
     @classmethod
+    def filter_by(cls, criteria: dict) -> db.Model:
+        for attr, value in criteria.items():
+            query = cls.query.filter(getattr(cls, attr) == value).first()
+        return query
+
+    @classmethod
     def first(cls, criteria: dict) -> db.Model:
         for attr, value in criteria.items():
             query = cls.query.filter(getattr(cls, attr) == value).first()

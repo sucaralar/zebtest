@@ -11,7 +11,7 @@ class AbstractRepository(abc.ABC):
     def first(self, criteria: dict) -> Any:
         return self.model.first(criteria=criteria)
 
-    def filter_by(self, criteria: Any) -> Any:
+    def filter_by(self, criteria: dict) -> Any:
         return self.model.filter_by(**criteria)
 
     def get_by_id(self, _id: int) -> Any:

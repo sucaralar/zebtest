@@ -1,7 +1,7 @@
 FROM python:3.9
 
-ADD . /zdemo
-WORKDIR /zdemo
+ADD . /zebtest
+WORKDIR /zebtest
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 ENV FLASK_APP=flask_app.py

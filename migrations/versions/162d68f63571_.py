@@ -49,7 +49,25 @@ def upgrade():
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
+    # create default data
+    default_user = """
+                --sql
+                INSERT INTO users (last_name, first_name, email, password, is_active)
+                VALUES ('Susana', 'Carrillo', 'sucarrilloa@gmail.com', 'Zdemo2022$', True);
+                """
+    op.execute(default_user)
+
+    default_products = """
+                    --sql
+                    INSERT INTO products (sku, name, price, brand, description, qty, is_active) VALUES 
+                    ('A12345', 'Dell Optiplex 9010', 5987.00, 'ZTEST', 'Dell Optiplex 9010 SFF Desktop PC', 2, True),
+                    ('B12345', 'Avantree AH6B Bluetooth', 13424.00, 'ZTEST', 'auriculares con micrófono desmontable', 3, True);
+                    """
+    op.execute(default_products)
+
     # ### end Alembic commands ###
+
 
 
 def downgrade():

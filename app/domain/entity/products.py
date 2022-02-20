@@ -4,9 +4,6 @@ from decimal import Decimal
 from pydantic import BaseModel
 
 
-# ==================================================================
-# Product Entities
-# ==================================================================
 class ProductBase(BaseModel):
     """common properties for model use"""
     id: Optional[int]
