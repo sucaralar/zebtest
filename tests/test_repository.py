@@ -6,7 +6,7 @@ from app.domain.repository.user_repository import UserRepository
 
 
 # ==================================================================
-# User repository test
+# User repository - Integration test
 # ==================================================================
 def test_create_user(db) -> None:
     last_name = utils.random_lower_string()

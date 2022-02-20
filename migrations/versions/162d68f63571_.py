@@ -7,7 +7,7 @@ Create Date: 2022-02-18 19:44:32.931218
 """
 from alembic import op
 import sqlalchemy as sa
-
+from werkzeug.security import generate_password_hash
 
 # revision identifiers, used by Alembic.
 revision = '162d68f63571'
@@ -51,10 +51,10 @@ def upgrade():
     )
 
     # create default data
-    default_user = """
+    default_user = f"""
                 --sql
                 INSERT INTO users (last_name, first_name, email, password, is_active)
-                VALUES ('Susana', 'Carrillo', 'sucarrilloa@gmail.com', 'Zdemo2022$', True);
+                VALUES ('Susana', 'Carrillo', 'sucarrilloa@gmail.com', '{generate_password_hash('Zdemo2022$')}', True);
                 """
     op.execute(default_user)
 

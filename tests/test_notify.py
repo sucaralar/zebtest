@@ -2,6 +2,9 @@ from app.utils.notify.send_email import EmailNotification
 from app.utils.notify.providers import SendGridNotification
 
 
+# =============================================================
+# unit tests
+# =============================================================
 def test_send_mail(app):
     """ mail sending unit test """
     subject = "Zebrans unit test by Susy"
