@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.domain.manager import ProductManager
+from app.domain.manager.product_manager import ProductManager
 from app.domain.entity.products import ProductBase
 from app.api.serializer.products import product_serializer
 

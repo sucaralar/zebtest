@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource, abort
 from flask_jwt_extended import create_access_token
-from app.domain.manager import UserManager
+from app.domain.manager.user_manager import UserManager
 from app.domain.entity.security import LoginBase
 from app.api.serializer.security import jwt_serializer
 

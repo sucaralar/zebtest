@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required
 from app.domain.entity.users import UserIn
-from app.domain.manager import UserManager
+from app.domain.manager.user_manager import UserManager
 from app.api.serializer.users import user_serializer
 
 ns_users = Namespace('users', path="/", description='User Endpoint')
