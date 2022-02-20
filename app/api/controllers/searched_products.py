@@ -21,8 +21,8 @@ class SearchedResource(Resource):
         manager = SearchedProductManager()
         if not product_id:
             abort(404, **{"error": "You must specify a product id"})
-        response = manager.get_searched(product_id=product_id)
-        return response
+        total = manager.get_searched(product_id=product_id)
+        return {"total_searches": total}
 
 
 # Register resource

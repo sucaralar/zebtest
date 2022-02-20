@@ -13,8 +13,11 @@ class SearchedProductManager:
 
     def get_searched(self, product_id: int) -> int:
         filter_data = {"product_id": product_id}
-        searched = self.searched_product_repository.filter_by(filter_data)
-        total = len(searched)
+        searched = self.searched_product_repository.filter_by(criteria=filter_data)
+        if not searched:
+            total = 0
+        else:
+            total = len(searched)
         return total
 
 
