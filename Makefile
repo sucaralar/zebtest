@@ -1,4 +1,3 @@
-# these will speed up builds, for docker-compose >= 1.25
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
 
@@ -8,13 +7,10 @@ build:
 	docker-compose build
 
 up:
-	docker-compose up -d app
+	docker-compose up -d
 
 down:
 	docker-compose down
-
-logs:
-	docker-compose logs app | tail -100
 
 test:
 	docker exec zebtest_api python -m pytest -v
@@ -27,3 +23,5 @@ migrate:
 
 upgrade:
 	docker exec zebtest_api flask db upgrade
+
+db: init_db migrate upgrade
