@@ -6,10 +6,10 @@ from config import configurations
 
 db = SQLAlchemy()
 jwt_manager = JWTManager()
-api = Api(doc='/docs',
-          title='Zebrans Demo - Resource API',
+api = Api(doc='/',
+          title='Zebrans Test - Resource API',
           version='1.0',
-          description='This is the documentation of the endpoints you can access' )
+          description='This is the api documentation created by Susana Carrillo for the Zebrans team')
 
 
 def create_app(environment):

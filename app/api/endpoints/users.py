@@ -1,14 +1,12 @@
 import json
 from flask import Blueprint
-from flask_restx import Api
+from application import api
 from werkzeug.exceptions import HTTPException
-from app.api.controllers.users import api as users_api
+from app.api.controllers.users import ns_users
 
 blueprint = Blueprint('user_api', __name__, url_prefix='')
 
-api = Api(blueprint)
-
-api.add_namespace(users_api)
+api.add_namespace(ns_users)
 
 
 @api.errorhandler(HTTPException)
@@ -23,5 +21,6 @@ def handle_error(error: HTTPException):
     })
     response.content_type = "application/json"
     return response
+
 
 

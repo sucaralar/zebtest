@@ -7,7 +7,7 @@ from app.api.serializer.security import jwt_serializer
 api = Namespace('securtity', path="/security/", description='Security Endpoint')
 
 login_schema = api.schema_model(LoginBase.__name__, LoginBase.schema())
-jwt_model = api.model('JWTModel', jwt_serializer)
+jwt_model = api.model('JWTResponse', jwt_serializer)
 
 
 class GetTokenResource(Resource):

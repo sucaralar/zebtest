@@ -4,15 +4,18 @@ from app.domain.manager import ProductManager
 from app.domain.entity.products import ProductBase
 from app.api.serializer.products import product_serializer
 
-api = Namespace('products', path="/products/", description='Products Endpoint')
+ns_products = Namespace('products', path="/", description='Products Endpoint')
 
-product_schema = api.schema_model(ProductBase.__name__, ProductBase.schema())
-product_model = api.model('ProductModel', product_serializer)
+product_schema = ns_products.schema_model(ProductBase.__name__, ProductBase.schema())
+product_model = ns_products.model('ProductResponse', product_serializer)
 
 
 class ProductResource(Resource):
+    """
+        Endpoints for basic product crud
+    """
     @jwt_required(optional=True)
-    # @api.marshal_with(product_model)
+    @ns_products.marshal_with(product_model)
     def get(self, product_id: int = None):
         """ Endpoint to get a product(s) """
         manager = ProductManager()
@@ -27,22 +30,22 @@ class ProductResource(Resource):
         return response
 
     @jwt_required()
-    @api.marshal_with(product_model)
-    @api.expect(product_schema)
+    @ns_products.marshal_with(product_model)
+    @ns_products.expect(product_schema)
     def post(self):
         """ Create new product """
         manager = ProductManager()
-        product_in = ProductBase(**api.payload)
+        product_in = ProductBase(**ns_products.payload)
         response = manager.create(product_in=product_in)
         return response
 
     @jwt_required()
-    @api.marshal_with(product_model)
-    @api.expect(product_schema)
+    @ns_products.marshal_with(product_model)
+    @ns_products.expect(product_schema)
     def put(self):
         """ Update update a existent product """
         manager = ProductManager()
-        product_in = ProductBase(**api.payload)
+        product_in = ProductBase(**ns_products.payload)
         response = manager.update(product_in=product_in)
         return response
 
@@ -55,8 +58,5 @@ class ProductResource(Resource):
 
 
 # Register resource
-api.add_resource(ProductResource, '/', endpoint='products-list', methods=['GET'])
-api.add_resource(ProductResource, '/<int:product_id>', endpoint='products-get', methods=['GET'])
-api.add_resource(ProductResource, '/', endpoint='products-create', methods=['POST'])
-api.add_resource(ProductResource, '/', endpoint='products-update', methods=['PUT'])
-api.add_resource(ProductResource, '/<int:product_id>', endpoint='products-delete', methods=['DELETE'])
+ns_products.add_resource(ProductResource, '/products/', methods=['GET', 'POST', 'PUT'])
+ns_products.add_resource(ProductResource, '/products/<int:product_id>', methods=['GET', 'DELETE'])
