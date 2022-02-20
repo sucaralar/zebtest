@@ -34,7 +34,7 @@ def test_get_first_user(db) -> None:
 
 def test_get_user(db) -> None:
     rep = UserRepository()
-    user = rep.get_by_id(_id=2)
+    user = rep.get_by_id(_id=1)
     assert isinstance(user, models.User)
 
 

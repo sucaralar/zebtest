@@ -24,10 +24,10 @@ class SendGridNotification(AbstractNotificationProvider):
             html_content=html_content)
 
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        email_response = sg.send(message)
-        if email_response.status_code == 201:
+        try:
+            email_response = sg.send(message)
             response = True
-        else:
+        except Exception as e:
             response = False
         return response
 
@@ -52,7 +52,7 @@ class AWSNotification(AbstractNotificationProvider):
                 },
                 Template=mail_template
             )
+            return True
         except ClientError as e:
             return False
-        else:
-            return True
+
